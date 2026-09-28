@@ -1,0 +1,6 @@
+{
+  "name": "PyPath — Complete Python Academy",
+  "description": "Comprehensive full-stack Python learning platform featuring interactive curriculum, browser CPython playground, deterministic quizzes, and Gemini AI tutor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

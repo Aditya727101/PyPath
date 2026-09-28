@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Student profile, preferences, and top-level learning statistics",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 512 },
+        "goal": { "type": "string", "maxLength": 128 },
+        "experienceLevel": { "type": "string", "maxLength": 32 },
+        "streakDays": { "type": "number" },
+        "lastActiveDate": { "type": "string", "maxLength": 32 },
+        "totalLessonsCompleted": { "type": "number" },
+        "totalQuizzesPassed": { "type": "number" },
+        "totalExercisesSolved": { "type": "number" },
+        "createdAt": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["uid", "email", "displayName"]
+    },
+    "UserProgress": {
+      "title": "UserProgress",
+      "description": "Tracks completion state and timestamps for individual lessons",
+      "type": "object",
+      "properties": {
+        "lessonId": { "type": "string", "maxLength": 128 },
+        "moduleId": { "type": "string", "maxLength": 128 },
+        "completed": { "type": "boolean" },
+        "completedAt": { "type": "string", "maxLength": 64 },
+        "lastVisitedAt": { "type": "string", "maxLength": 64 },
+        "timeSpentSeconds": { "type": "number" }
+      },
+      "required": ["lessonId", "moduleId", "completed"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Stores deterministic grading outcomes, scores, and timestamps for quizzes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "quizId": { "type": "string", "maxLength": 128 },
+        "moduleId": { "type": "string", "maxLength": 128 },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "percentage": { "type": "number" },
+        "passed": { "type": "boolean" },
+        "attemptedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "quizId", "score", "totalQuestions", "percentage", "passed"]
+    },
+    "UserNote": {
+      "title": "UserNote",
+      "description": "Personal student markdown notes taken during lessons",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "lessonId": { "type": "string", "maxLength": 128 },
+        "lessonTitle": { "type": "string", "maxLength": 256 },
+        "content": { "type": "string", "maxLength": 10000 },
+        "updatedAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "lessonId", "content"]
+    },
+    "UserBookmark": {
+      "title": "UserBookmark",
+      "description": "Saved reference items like lessons, exercises, or questions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "targetType": { "type": "string", "maxLength": 32 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 256 },
+        "category": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "targetType", "targetId", "title"]
+    },
+    "UserPreferences": {
+      "title": "UserPreferences",
+      "description": "User display and editor settings",
+      "type": "object",
+      "properties": {
+        "theme": { "type": "string", "maxLength": 16 },
+        "editorFontSize": { "type": "number" },
+        "autoRunCode": { "type": "boolean" },
+        "soundEffects": { "type": "boolean" }
+      },
+      "required": ["theme"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile records containing account info and summary stats"
+    },
+    "/users/{userId}/progress/{lessonId}": {
+      "schema": "UserProgress",
+      "description": "Lesson completion status for the student"
+    },
+    "/users/{userId}/quizAttempts/{attemptId}": {
+      "schema": "QuizAttempt",
+      "description": "Quiz scores and completion history for the student"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": "UserNote",
+      "description": "Personal notes created by the student"
+    },
+    "/users/{userId}/bookmarks/{bookmarkId}": {
+      "schema": "UserBookmark",
+      "description": "Bookmarks saved by the student"
+    },
+    "/users/{userId}/settings/preferences": {
+      "schema": "UserPreferences",
+      "description": "Display and code editor preferences"
+    }
+  }
+}
